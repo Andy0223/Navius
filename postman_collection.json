@@ -1,0 +1,340 @@
+{
+    "info": {
+        "name": "健康管理平台 API",
+        "description": "健康管理平台后端 API 测试集合",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "认证",
+            "item": [
+                {
+                    "name": "用户注册",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"test@example.com\",\n  \"password\": \"testpass123\",\n  \"full_name\": \"测试用户\",\n  \"date_of_birth\": \"1990-01-01\",\n  \"gender\": \"male\",\n  \"height\": 175,\n  \"weight\": 70,\n  \"activity_level\": \"moderately_active\",\n  \"health_goal\": \"weight_loss\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "用户登录",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/x-www-form-urlencoded"
+                            }
+                        ],
+                        "body": {
+                            "mode": "urlencoded",
+                            "urlencoded": [
+                                {
+                                    "key": "username",
+                                    "value": "testuser"
+                                },
+                                {
+                                    "key": "password",
+                                    "value": "testpass123"
+                                }
+                            ]
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "获取当前用户信息",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/users/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "users",
+                                "me"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "健康数据",
+            "item": [
+                {
+                    "name": "提交运动数据",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"data_type\": \"exercise\",\n  \"date\": \"2024-01-15\",\n  \"exercise_type\": \"跑步\",\n  \"duration\": 30,\n  \"calories_burned\": 300,\n  \"distance\": 5.0,\n  \"intensity\": \"中等\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/health/data",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "data"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "提交饮食数据",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"data_type\": \"diet\",\n  \"date\": \"2024-01-15\",\n  \"meal_type\": \"breakfast\",\n  \"food_name\": \"燕麦粥\",\n  \"calories\": 200,\n  \"protein\": 10,\n  \"carbs\": 30,\n  \"fats\": 5\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/health/data",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "data"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "提交睡眠数据",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"data_type\": \"sleep\",\n  \"date\": \"2024-01-15\",\n  \"sleep_duration\": 7.5,\n  \"sleep_quality\": \"good\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/api/health/data",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "data"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "获取健康数据",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/health/data?data_type=exercise",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "data"
+                            ],
+                            "query": [
+                                {
+                                    "key": "data_type",
+                                    "value": "exercise"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "获取健康统计",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/health/statistics?days=7",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "statistics"
+                            ],
+                            "query": [
+                                {
+                                    "key": "days",
+                                    "value": "7"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "健康计划",
+            "item": [
+                {
+                    "name": "生成个性化健康计划",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/health/plan",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "plan"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "获取健康计划列表",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/health/plan",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "plan"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "获取 AI 推荐",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{access_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/health/recommendations",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "health",
+                                "recommendations"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000"
+        },
+        {
+            "key": "access_token",
+            "value": ""
+        }
+    ]
+}
