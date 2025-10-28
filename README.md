@@ -313,9 +313,150 @@ This project is licensed under the MIT License.
 - Docker for containerization
 - PostgreSQL team
 
+## 📝 Quick Start Examples
+
+### Example 1: Register and Login
+
+```bash
+# Register a new user
+curl -X POST http://localhost:8000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "testpass123",
+    "full_name": "Test User",
+    "date_of_birth": "1990-01-01",
+    "gender": "male",
+    "height": 175.0,
+    "weight": 70.0,
+    "activity_level": "moderately_active",
+    "health_goal": "weight_loss"
+  }'
+
+# Login and get token
+curl -X POST http://localhost:8000/api/auth/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=testuser&password=testpass123"
+```
+
+### Example 2: Submit Health Data
+
+```bash
+# Get your token from login response
+TOKEN="your_token_here"
+
+# Submit exercise data
+curl -X POST http://localhost:8000/api/health/data \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "data_type": "exercise",
+    "date": "2025-10-29",
+    "exercise_type": "Running",
+    "duration": 30.0,
+    "calories_burned": 300.0,
+    "distance": 5.0,
+    "intensity": "moderate"
+  }'
+```
+
+### Example 3: Generate AI Health Plan
+
+```bash
+# Generate personalized AI health plan
+curl -X POST http://localhost:8000/api/health/plan \
+  -H "Authorization: Bearer $TOKEN"
+```
+
+## 🗂️ Dependencies
+
+### Core Dependencies
+```bash
+fastapi==0.104.1              # Web framework
+uvicorn[standard]==0.24.0      # ASGI server
+sqlalchemy==2.0.23             # ORM
+psycopg2-binary==2.9.9         # PostgreSQL driver
+python-jose[cryptography]      # JWT authentication
+passlib[bcrypt]==1.7.4         # Password hashing
+pydantic==2.5.1                # Data validation
+```
+
+### AI/ML Dependencies
+```bash
+numpy==1.24.3                  # Numerical computing
+scikit-learn==1.3.2            # Machine learning
+tensorflow==2.15.0             # Deep learning
+torch==2.1.1                   # Neural networks
+transformers==4.35.2            # NLP models
+```
+
+### Development Dependencies
+```bash
+pytest==7.4.3                  # Testing framework
+pytest-asyncio==0.21.1         # Async testing
+httpx==0.25.2                  # HTTP client
+alembic==1.12.1                # Database migrations
+python-dotenv==1.0.0           # Environment variables
+email-validator==2.1.0         # Email validation
+```
+
+Install all dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## 🔧 Development Guide
+
+### Running Tests
+
+```bash
+# Run all tests
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_auth.py
+
+# Run with coverage
+pytest --cov=app tests/
+```
+
+### Database Migrations
+
+```bash
+# Create new migration
+alembic revision --autogenerate -m "description"
+
+# Apply migrations
+alembic upgrade head
+
+# Rollback migration
+alembic downgrade -1
+
+# View migration history
+alembic history
+```
+
+### Code Quality
+
+```bash
+# Format code
+black app/
+
+# Lint code
+flake8 app/
+
+# Type checking
+mypy app/
+```
+
 ## 📞 Support
 
 For support, email support@navius.com or create an issue in the repository.
+
+## 📄 License
+
+This project is licensed under the MIT License.
 
 ---
 
