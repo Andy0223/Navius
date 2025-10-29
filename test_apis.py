@@ -51,8 +51,13 @@ def test_apis():
     }
     response = requests.post(f"{BASE_URL}/api/auth/register", json=user_data)
     print_response("User Registration", response)
-    assert response.status_code == 201
-    user_id = response.json()["id"]
+    if response.status_code == 201:
+        user_id = response.json()["id"]
+        print("✓ User registered successfully")
+    elif response.status_code == 400 and "already exists" in response.json().get("detail", "").lower():
+        print("✓ User already exists, will use login instead")
+    else:
+        assert False, f"Registration failed: {response.status_code}"
     
     # Test 4: Login
     print("\n4. Testing user login...")
