@@ -5,15 +5,15 @@ from datetime import date
 
 @pytest.fixture
 def auth_headers(client):
-    """创建认证用户的 headers"""
-    # 注册
+    """Create authentication user headers"""
+    # Register
     client.post("/api/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
         "password": "testpass123"
     })
     
-    # 登录
+    # Login
     login_response = client.post("/api/auth/login", data={
         "username": "testuser",
         "password": "testpass123"
@@ -24,11 +24,11 @@ def auth_headers(client):
 
 
 def test_create_exercise_data(client, auth_headers):
-    """测试创建运动数据"""
+    """Test create exercise data"""
     response = client.post("/api/health/data", json={
         "data_type": "exercise",
         "date": str(date.today()),
-        "exercise_type": "跑步",
+        "exercise_type": "running",
         "duration": 30,
         "calories_burned": 300,
         "distance": 5.0,
@@ -40,12 +40,12 @@ def test_create_exercise_data(client, auth_headers):
 
 
 def test_create_diet_data(client, auth_headers):
-    """测试创建饮食数据"""
+    """Test create diet data"""
     response = client.post("/api/health/data", json={
         "data_type": "diet",
         "date": str(date.today()),
         "meal_type": "breakfast",
-        "food_name": "燕麦粥",
+        "food_name": "oatmeal",
         "calories": 200,
         "protein": 10,
         "carbs": 30,
@@ -53,11 +53,11 @@ def test_create_diet_data(client, auth_headers):
     }, headers=auth_headers)
     
     assert response.status_code == status.HTTP_201_CREATED
-    assert response.json()["food_name"] == "燕麦粥"
+    assert response.json()["food_name"] == "oatmeal"
 
 
 def test_create_sleep_data(client, auth_headers):
-    """测试创建睡眠数据"""
+    """Test create sleep data"""
     response = client.post("/api/health/data", json={
         "data_type": "sleep",
         "date": str(date.today()),
@@ -70,16 +70,16 @@ def test_create_sleep_data(client, auth_headers):
 
 
 def test_get_health_data(client, auth_headers):
-    """测试获取健康数据"""
+    """Test get health data"""
     # 创建一些测试数据
     client.post("/api/health/data", json={
         "data_type": "exercise",
         "date": str(date.today()),
-        "exercise_type": "跑步",
+        "exercise_type": "running",
         "duration": 30
     }, headers=auth_headers)
     
-    # 获取数据
+    # Get data
     response = client.get("/api/health/data", headers=auth_headers)
     
     assert response.status_code == status.HTTP_200_OK
@@ -87,8 +87,8 @@ def test_get_health_data(client, auth_headers):
 
 
 def test_get_health_statistics(client, auth_headers):
-    """测试获取健康统计"""
-    # 创建一些测试数据
+    """Test get health statistics"""
+    # Create some test data
     client.post("/api/health/data", json={
         "data_type": "exercise",
         "date": str(date.today()),

@@ -4,8 +4,8 @@ from fastapi import status
 
 @pytest.fixture
 def auth_headers(client):
-    """创建认证用户的 headers"""
-    # 注册用户并设置健康目标
+    """Create authentication user headers"""
+    # Register user and set health goal
     client.post("/api/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -19,7 +19,7 @@ def auth_headers(client):
         "health_goal": "weight_loss"
     })
     
-    # 登录
+    # Login
     login_response = client.post("/api/auth/login", data={
         "username": "testuser",
         "password": "testpass123"
@@ -30,7 +30,7 @@ def auth_headers(client):
 
 
 def test_generate_health_plan(client, auth_headers):
-    """测试生成健康计划"""
+    """Test generate health plan"""
     response = client.post("/api/health/plan", headers=auth_headers)
     
     assert response.status_code == status.HTTP_201_CREATED
@@ -40,11 +40,11 @@ def test_generate_health_plan(client, auth_headers):
 
 
 def test_get_health_plans(client, auth_headers):
-    """测试获取健康计划"""
-    # 先生成一个计划
+    """Test get health plans"""
+    # Generate a plan first
     client.post("/api/health/plan", headers=auth_headers)
     
-    # 获取计划列表
+    # Get plan list
     response = client.get("/api/health/plan", headers=auth_headers)
     
     assert response.status_code == status.HTTP_200_OK
@@ -52,7 +52,7 @@ def test_get_health_plans(client, auth_headers):
 
 
 def test_get_ai_recommendations(client, auth_headers):
-    """测试获取 AI 推荐"""
+    """Test get AI recommendations"""
     response = client.get("/api/health/recommendations", headers=auth_headers)
     
     assert response.status_code == status.HTTP_200_OK

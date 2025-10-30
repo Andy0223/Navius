@@ -1,41 +1,41 @@
 #!/bin/bash
 
-echo "=== 健康管理平台启动脚本 ==="
+echo "=== Health Management Platform Startup Script ==="
 
 # 检查虚拟环境
 if [ ! -d "venv" ]; then
-    echo "创建虚拟环境..."
+    echo "Creating virtual environment..."
     python -m venv venv
 fi
 
-# 激活虚拟环境
+# Activate virtual environment
 source venv/bin/activate
 
-# 安装依赖
-echo "安装依赖包..."
+# Install dependencies
+echo "Installing dependencies..."
 pip install -r requirements.txt
 
-# 检查 .env 文件
+# Check .env file
 if [ ! -f ".env" ]; then
-    echo "创建 .env 文件..."
+    echo "Creating .env file..."
     cp .env.example .env
-    echo "请编辑 .env 文件配置数据库连接和其他参数"
+    echo "Please edit the .env file to configure database connection and other parameters"
 fi
 
-# 检查数据库
-echo "检查数据库连接..."
+# Check database
+echo "Checking database connection..."
 if ! pg_isready -h localhost -p 5432 -U postgres > /dev/null 2>&1; then
-    echo "PostgreSQL 未运行，使用 Docker Compose 启动..."
+    echo "PostgreSQL is not running, starting with Docker Compose..."
     docker-compose up -d db
-    echo "等待数据库启动..."
+    echo "Waiting for database to start..."
     sleep 5
 fi
 
-# 运行数据库迁移
-echo "运行数据库迁移..."
+# Run database migrations
+echo "Running database migrations..."
 alembic upgrade head
 
-# 启动服务
-echo "启动服务..."
+# Start service
+echo "Starting service..."
 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 

@@ -3,7 +3,7 @@ from fastapi import status
 
 
 def test_register_user(client):
-    """测试用户注册"""
+    """Test user registration"""
     response = client.post("/api/auth/register", json={
         "username": "testuser",
         "email": "test@example.com",
@@ -17,7 +17,7 @@ def test_register_user(client):
 
 
 def test_register_duplicate_username(client):
-    """测试重复用户名注册"""
+    """Test duplicate username registration"""
     # 第一次注册
     client.post("/api/auth/register", json={
         "username": "testuser",
@@ -25,7 +25,7 @@ def test_register_duplicate_username(client):
         "password": "testpass123"
     })
     
-    # 尝试用相同用户名注册
+    # Try to register with the same username
     response = client.post("/api/auth/register", json={
         "username": "testuser",
         "email": "test2@example.com",
@@ -36,7 +36,7 @@ def test_register_duplicate_username(client):
 
 
 def test_login_success(client):
-    """测试成功登录"""
+    """Test successful login"""
     # 先注册
     client.post("/api/auth/register", json={
         "username": "testuser",
@@ -44,7 +44,7 @@ def test_login_success(client):
         "password": "testpass123"
     })
     
-    # 登录
+    # Login
     response = client.post("/api/auth/login", data={
         "username": "testuser",
         "password": "testpass123"
@@ -55,7 +55,7 @@ def test_login_success(client):
 
 
 def test_login_wrong_password(client):
-    """测试错误密码登录"""
+    """Test wrong password login"""
     # 先注册
     client.post("/api/auth/register", json={
         "username": "testuser",
@@ -63,7 +63,7 @@ def test_login_wrong_password(client):
         "password": "testpass123"
     })
     
-    # 用错误密码登录
+    # Login with wrong password
     response = client.post("/api/auth/login", data={
         "username": "testuser",
         "password": "wrongpass"
@@ -73,7 +73,7 @@ def test_login_wrong_password(client):
 
 
 def test_get_current_user(client):
-    """测试获取当前用户信息"""
+    """Test get current user information"""
     # 注册
     client.post("/api/auth/register", json={
         "username": "testuser",
@@ -82,14 +82,14 @@ def test_get_current_user(client):
         "full_name": "Test User"
     })
     
-    # 登录获取 token
+    # Login to get token
     login_response = client.post("/api/auth/login", data={
         "username": "testuser",
         "password": "testpass123"
     })
     token = login_response.json()["access_token"]
     
-    # 获取当前用户信息
+    # Get current user information
     headers = {"Authorization": f"Bearer {token}"}
     response = client.get("/api/auth/me", headers=headers)
     
